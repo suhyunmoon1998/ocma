@@ -1,0 +1,1428 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="TAEKWON DOJANG - clean, bold martial arts site in black, white and red." />
+    <title>TAEKWON DOJANG | Train Fearless</title>
+    <style>
+      :root {
+        --bg: #070707;
+        --bg-soft: #0f0f0f;
+        --line: #1f1f1f;
+        --text: #f6f6f6;
+        --muted: #bcbcbc;
+        --white: #ffffff;
+        --red: #e22121;
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      html,
+      body {
+        margin: 0;
+        min-height: 100%;
+        font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Inter', sans-serif;
+        color: var(--text);
+        background:
+          linear-gradient(180deg, rgba(5, 5, 5, 0.78), rgba(5, 5, 5, 0.78)),
+          url('assets/backgrounds/dojo-bg.png') center center / cover no-repeat fixed;
+        scroll-behavior: smooth;
+      }
+
+      body {
+        position: relative;
+        overflow-x: hidden;
+        background: transparent;
+      }
+
+      .dojo-bg {
+        position: fixed;
+        inset: 0;
+        z-index: 0;
+        pointer-events: none;
+        opacity: 0.38;
+        background-repeat: no-repeat;
+        background-position: center center;
+        background-size: cover;
+        background-image: url('assets/backgrounds/dojo-bg.png');
+        animation: dojoPan 28s ease-in-out infinite alternate;
+        filter: grayscale(1) contrast(1.04) brightness(1.08);
+      }
+
+      .bg-video {
+        display: none;
+      }
+
+      .grain {
+        position: fixed;
+        inset: 0;
+        background-image: linear-gradient(transparent, transparent);
+        pointer-events: none;
+        opacity: 0;
+        z-index: 1;
+      }
+
+      .wrap {
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 0 1.25rem;
+      }
+
+      .topbar {
+        position: sticky;
+        top: 0;
+        background: rgba(7, 7, 7, 0.88);
+        backdrop-filter: blur(8px);
+        border-bottom: 1px solid var(--line);
+        z-index: 20;
+      }
+
+      .topbar-inner {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        min-height: 72px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        padding: 0.18rem 0.35rem;
+        border-radius: 12px;
+        background: rgba(0, 0, 0, 0.18);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      .brand-logo {
+        width: 136px;
+        height: 52px;
+        display: grid;
+        place-items: center;
+        border-radius: 12px;
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        color: var(--white);
+        font-weight: 900;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+        font-size: 0.86rem;
+        position: relative;
+        overflow: hidden;
+      }
+
+      .brand-logo::before {
+        content: 'LOGO';
+        position: relative;
+        z-index: 1;
+      }
+
+      .brand-logo::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(circle at 20% 20%, rgba(226, 33, 33, 0.18), transparent 28%),
+          linear-gradient(135deg, transparent 0 42%, rgba(255, 255, 255, 0.06) 42% 58%, transparent 58% 100%);
+      }
+
+      .brand-logo img {
+        display: none;
+      }
+
+      .brand-copy {
+        display: none;
+      }
+
+      .top-nav {
+        display: flex;
+        gap: 1.1rem;
+      }
+
+      .top-nav a {
+        color: var(--text);
+        text-decoration: none;
+        font-size: 0.78rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        opacity: 0.85;
+      }
+
+      .top-nav a:hover {
+        opacity: 1;
+        color: var(--red);
+      }
+
+      .hero {
+        position: relative;
+        padding: 3rem 0 3rem;
+        z-index: 2;
+      }
+
+      .hero-stage {
+        position: relative;
+        min-height: min(72vh, 720px);
+        border-radius: 24px;
+        overflow: hidden;
+        border: 0;
+        background: transparent;
+        box-shadow: none;
+      }
+
+      .hero-content {
+        position: relative;
+        z-index: 2;
+        min-height: auto;
+        display: grid;
+        grid-template-columns: minmax(0, 1.08fr) minmax(320px, 0.74fr);
+        gap: 1rem;
+        align-items: start;
+        padding: clamp(0.95rem, 2vw, 1.25rem);
+        background:
+          radial-gradient(circle at 86% 20%, rgba(255, 255, 255, 0.06), transparent 15%),
+          radial-gradient(circle at 76% 72%, rgba(226, 33, 33, 0.08), transparent 18%),
+          rgba(7, 7, 7, 0.34);
+        border: 1px solid rgba(255, 255, 255, 0.06);
+        border-radius: 24px;
+        box-shadow: 0 20px 80px rgba(0, 0, 0, 0.2);
+      }
+
+      .hero-video-card {
+        display: none;
+      }
+
+      .eyebrow {
+        display: inline-block;
+        text-transform: uppercase;
+        letter-spacing: 0.22em;
+        font-size: 0.74rem;
+        color: var(--muted);
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        padding: 0.33rem 0.8rem;
+      }
+
+      .hero h1 {
+        margin: 0.5rem 0 0.55rem;
+        font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Inter', sans-serif;
+        font-size: clamp(2.1rem, 6.1vw, 4.45rem);
+        line-height: 0.95;
+        text-transform: uppercase;
+        letter-spacing: -0.05em;
+        max-width: 11ch;
+      }
+
+      .hero h1 span {
+        display: block;
+        color: var(--white);
+      }
+
+      .hero h1 .accent {
+        color: var(--red);
+      }
+
+      .hero p {
+        margin: 0.7rem 0;
+        color: var(--muted);
+        max-width: 44ch;
+        line-height: 1.6;
+      }
+
+      .hero-subcopy {
+        margin-top: 0.1rem;
+        max-width: 40ch;
+        color: rgba(255, 255, 255, 0.78);
+      }
+
+      .hero-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.75rem;
+        margin-top: 0.95rem;
+      }
+
+      .hero-trust {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.6rem;
+        margin-top: 0.9rem;
+      }
+
+      .hero-trust span {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        padding: 0.42rem 0.65rem;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        border-radius: 999px;
+        background: rgba(0, 0, 0, 0.26);
+        color: rgba(255, 255, 255, 0.82);
+        font-size: 0.7rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .btn {
+        display: inline-block;
+        text-decoration: none;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        border-radius: 999px;
+        padding: 0.85rem 1rem;
+        font-size: 0.74rem;
+      }
+
+      .btn.primary {
+        background: var(--red);
+        color: var(--white);
+      }
+
+      .btn.secondary {
+        border: 1px solid var(--line);
+        color: var(--text);
+        margin-left: 0.6rem;
+      }
+
+      .hero-card {
+        border: 1px solid var(--line);
+        border-radius: 16px;
+        background: linear-gradient(170deg, #101010, #090909);
+        padding: 1rem;
+        display: grid;
+        gap: 0.9rem;
+        align-content: start;
+      }
+
+      .hero-copy {
+        align-self: start;
+        max-width: 640px;
+        padding-top: 0.1rem;
+      }
+
+      .hero-copy h1 {
+        text-shadow: 0 8px 40px rgba(0, 0, 0, 0.55);
+      }
+
+      .hero-copy p {
+        color: rgba(246, 246, 246, 0.84);
+        text-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
+      }
+
+      .hero-panel {
+        align-self: start;
+        justify-self: end;
+        width: min(100%, 430px);
+        margin-top: 0.15rem;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(10, 10, 10, 0.74);
+        backdrop-filter: blur(14px);
+        border-radius: 18px;
+        padding: 1.1rem;
+        box-shadow: 0 20px 60px rgba(0, 0, 0, 0.35);
+      }
+
+      .hero-panel h3 {
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-size: 1.18rem;
+      }
+
+      .hero-panel h3 .accent {
+        color: var(--red);
+      }
+
+      .hero-panel p {
+        margin: 0.6rem 0 0.8rem;
+        color: rgba(255, 255, 255, 0.75);
+        line-height: 1.55;
+      }
+
+      .hero-panel .lead-form {
+        background: rgba(5, 5, 5, 0.72);
+      }
+
+      .hero-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-top: 0.85rem;
+        background: rgba(0, 0, 0, 0.45);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: var(--white);
+        border-radius: 999px;
+        padding: 0.5rem 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-size: 0.72rem;
+      }
+
+      .lead-form {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        background: #0a0a0a;
+        padding: 0.9rem;
+      }
+
+      .lead-form h4 {
+        margin: 0 0 0.65rem;
+        font-size: 0.82rem;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+      }
+
+      .hero-panel h3 {
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+      }
+
+      .lead-form .row {
+        display: grid;
+        gap: 0.55rem;
+      }
+
+      .lead-form input,
+      .lead-form select {
+        border: 1px solid var(--line);
+        background: #050505;
+        color: var(--text);
+        padding: 0.72rem 0.8rem;
+        border-radius: 9px;
+        width: 100%;
+      }
+
+      .lead-form button {
+        border: 0;
+        border-radius: 10px;
+        padding: 0.9rem;
+        background: var(--red);
+        color: var(--white);
+        font-weight: 800;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      section {
+        padding: 3.5rem 0;
+        border-top: 1px solid var(--line);
+        position: relative;
+        z-index: 2;
+      }
+
+      .section-title {
+        margin: 0;
+        font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', 'Inter', sans-serif;
+        text-transform: uppercase;
+        letter-spacing: -0.03em;
+        font-size: clamp(1.4rem, 3vw, 2.2rem);
+      }
+
+      .section-title .accent {
+        color: var(--red);
+      }
+
+      .intro {
+        color: var(--muted);
+        max-width: 70ch;
+        line-height: 1.8;
+      }
+
+      .card-grid {
+        margin-top: 1.3rem;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.9rem;
+      }
+
+      .steps {
+        margin-top: 2rem;
+        position: relative;
+      }
+
+      .steps-head {
+        text-align: center;
+        margin-bottom: 1.35rem;
+      }
+
+      .steps-head h3 {
+        margin: 0;
+        color: var(--red);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-size: clamp(1.15rem, 2vw, 1.75rem);
+      }
+
+      .steps-head p {
+        margin: 0.55rem auto 0;
+        max-width: 60ch;
+        color: var(--muted);
+        line-height: 1.75;
+      }
+
+      .steps-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 1rem;
+        position: relative;
+      }
+
+      .steps-grid::before {
+        content: '';
+        position: absolute;
+        top: 72px;
+        left: 12%;
+        right: 12%;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.35), transparent);
+      }
+
+      .step-card {
+        position: relative;
+        text-align: center;
+        padding: 1.2rem 1rem 1.4rem;
+        border-radius: 18px;
+        border: 1px solid rgba(255, 255, 255, 0.08);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.02));
+        backdrop-filter: blur(10px);
+        overflow: hidden;
+        transition: transform 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+      }
+
+      .step-card:hover {
+        transform: translateY(-6px);
+        border-color: rgba(226, 33, 33, 0.6);
+        box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+      }
+
+      .step-icon {
+        width: 92px;
+        height: 92px;
+        margin: 0 auto 1rem;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        background: radial-gradient(circle at 35% 35%, rgba(255, 255, 255, 0.16), transparent 40%),
+          linear-gradient(180deg, #f11b1b, #b40f0f);
+        box-shadow: 0 14px 30px rgba(226, 33, 33, 0.35);
+        position: relative;
+      }
+
+      .step-icon::after {
+        position: relative;
+        z-index: 1;
+        font-size: 2.3rem;
+        line-height: 1;
+        filter: drop-shadow(0 3px 8px rgba(0, 0, 0, 0.25));
+      }
+
+      .step-card:nth-child(1) .step-icon::after {
+        content: '🎟️';
+      }
+
+      .step-card:nth-child(2) .step-icon::after {
+        content: '📅';
+      }
+
+      .step-card:nth-child(3) .step-icon::after {
+        content: '🥋';
+      }
+
+      .step-num {
+        position: absolute;
+        top: 12px;
+        right: 12px;
+        font-size: 0.72rem;
+        letter-spacing: 0.18em;
+        color: rgba(255, 255, 255, 0.7);
+        text-transform: uppercase;
+      }
+
+      .step-card h4 {
+        margin: 0;
+        color: var(--red);
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        font-size: 1.18rem;
+      }
+
+      .step-card p {
+        margin: 0.7rem auto 0;
+        max-width: 22ch;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 12px;
+        background: rgba(15, 15, 15, 0.82);
+        padding: 1.2rem;
+      }
+
+      .card h4 {
+        margin: 0;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        font-size: 0.95rem;
+      }
+
+      .card h4 .accent {
+        color: var(--red);
+      }
+
+      .card p {
+        margin: 0.6rem 0 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .card-media {
+        position: relative;
+        overflow: hidden;
+        border-radius: 10px;
+        aspect-ratio: 4 / 3;
+        margin-bottom: 0.9rem;
+        border: 1px solid var(--line);
+      }
+
+      .card-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .story {
+        display: grid;
+        grid-template-columns: 0.95fr 1.05fr;
+        gap: 1rem;
+        align-items: stretch;
+        background: rgba(9, 9, 9, 0.82);
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 1.2rem;
+      }
+
+      .story-media {
+        border-radius: 12px;
+        overflow: hidden;
+        min-height: 320px;
+        border: 1px solid var(--line);
+        background: linear-gradient(180deg, rgba(255, 255, 255, 0.06), rgba(255, 255, 255, 0.02));
+        display: grid;
+        place-items: center;
+        position: relative;
+      }
+
+      .story-media img {
+        display: none;
+      }
+
+      .story-media::before {
+        content: 'PHOTO';
+        position: relative;
+        z-index: 1;
+        color: rgba(255, 255, 255, 0.85);
+        font-size: 0.85rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        font-weight: 800;
+      }
+
+      .story-media::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(circle at 20% 20%, rgba(226, 33, 33, 0.18), transparent 28%),
+          linear-gradient(135deg, transparent 0 42%, rgba(255, 255, 255, 0.06) 42% 58%, transparent 58% 100%);
+      }
+
+      .story p {
+        margin: 0;
+        line-height: 1.9;
+        color: var(--muted);
+      }
+
+      .story .owner {
+        margin-top: 0.8rem;
+        color: var(--white);
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.14em;
+      }
+
+      .story .owner .accent {
+        color: var(--red);
+      }
+
+      .gallery {
+        margin-top: 1rem;
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 0.9rem;
+      }
+
+      .gallery-item {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid var(--line);
+        aspect-ratio: 16 / 10;
+      }
+
+      .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+      }
+
+      .reels {
+        padding-top: 1rem;
+      }
+
+      .reels-head {
+        display: flex;
+        justify-content: space-between;
+        align-items: end;
+        gap: 1rem;
+        margin-bottom: 1rem;
+      }
+
+      .reels-head p {
+        margin: 0.5rem 0 0;
+        max-width: 56ch;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .reel-panel {
+        position: relative;
+        min-height: min(88vh, 920px);
+        margin-top: 1rem;
+        overflow: hidden;
+        border-radius: 24px;
+        border: 1px solid var(--line);
+        background: #050505;
+      }
+
+      .reel-panel video {
+        position: absolute;
+        inset: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        filter: contrast(1.08) saturate(0.95) brightness(0.84);
+      }
+
+      .reel-panel::before {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background:
+          radial-gradient(circle at 20% 20%, rgba(226, 33, 33, 0.24), transparent 26%),
+          linear-gradient(180deg, rgba(7, 7, 7, 0.08), rgba(7, 7, 7, 0.72));
+        z-index: 1;
+      }
+
+      .reel-panel::after {
+        content: '';
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(transparent 0 97%, rgba(255, 255, 255, 0.05) 97% 100%);
+        background-size: 100% 8px;
+        opacity: 0.14;
+        z-index: 1;
+        pointer-events: none;
+      }
+
+      .reel-copy {
+        position: relative;
+        z-index: 2;
+        min-height: inherit;
+        display: flex;
+        flex-direction: column;
+        justify-content: end;
+        padding: clamp(1.2rem, 3vw, 2rem);
+      }
+
+      .reel-tag {
+        display: inline-flex;
+        width: fit-content;
+        padding: 0.45rem 0.75rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(0, 0, 0, 0.56);
+        font-size: 0.72rem;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
+      .reel-copy h3 {
+        margin: 0.8rem 0 0.35rem;
+        font-size: clamp(1.8rem, 4vw, 3.2rem);
+        text-transform: uppercase;
+        letter-spacing: -0.04em;
+      }
+
+      .reel-copy p {
+        margin: 0;
+        color: rgba(255, 255, 255, 0.82);
+        max-width: 52ch;
+        line-height: 1.8;
+      }
+
+      .location-wrap {
+        margin-top: 1rem;
+        display: grid;
+        grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+        gap: 1rem;
+      }
+
+      .location-copy {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        padding: 1.2rem;
+        background: rgba(9, 9, 9, 0.82);
+      }
+
+      .location-copy p {
+        margin: 0.6rem 0;
+        color: var(--muted);
+        line-height: 1.7;
+      }
+
+      .location-copy p:first-child {
+        margin-top: 0;
+      }
+
+      .location-copy strong {
+        color: var(--text);
+      }
+
+      .map-frame {
+        border: 1px solid var(--line);
+        border-radius: 14px;
+        overflow: hidden;
+        min-height: 320px;
+      }
+
+      .map-frame iframe {
+        border: 0;
+        width: 100%;
+        height: 100%;
+        min-height: 320px;
+        display: block;
+      }
+
+      .copy-address {
+        margin-top: 0.8rem;
+        border: 1px solid var(--line);
+        border-radius: 999px;
+        background: transparent;
+        color: var(--text);
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        font-weight: 700;
+        padding: 0.6rem 0.9rem;
+        font-size: 0.72rem;
+        cursor: pointer;
+      }
+
+      .copy-address:hover {
+        border-color: var(--red);
+        color: var(--red);
+      }
+
+      .trust {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 0.8rem;
+      }
+
+      .stat {
+        border-top: 1px solid var(--line);
+        border-bottom: 1px solid var(--line);
+        padding: 0.9rem 0;
+      }
+
+      .stat h3 {
+        margin: 0;
+        font-size: 1.8rem;
+      }
+
+      .stat h3 .accent {
+        color: var(--red);
+      }
+
+      .stat p {
+        margin: 0.3rem 0 0;
+        color: var(--muted);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      footer {
+        border-top: 1px solid var(--line);
+        padding: 1.8rem 0 3rem;
+        color: var(--muted);
+        position: relative;
+        z-index: 2;
+      }
+
+      .footer-row {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+
+      .highlight {
+        color: var(--red);
+      }
+
+      .reveal {
+        opacity: 0;
+        transform: translateY(14px);
+        transition: opacity 0.6s ease, transform 0.6s ease;
+      }
+
+      .reveal.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      @media (max-width: 920px) {
+        html,
+        body {
+          background:
+            linear-gradient(180deg, rgba(5, 5, 5, 0.9), rgba(5, 5, 5, 0.9)),
+            url('assets/backgrounds/dojo-bg.png') center center / cover no-repeat fixed;
+        }
+
+        .dojo-bg {
+          opacity: 0.18;
+          filter: grayscale(1) contrast(1) brightness(1.03);
+          animation-duration: 40s;
+        }
+
+        .topbar {
+          backdrop-filter: blur(12px);
+        }
+
+        .hero-content,
+        .card-grid,
+        .trust,
+        .story,
+        .gallery,
+        .reels-head {
+          grid-template-columns: 1fr;
+        }
+
+        .wrap {
+          padding: 0 1rem;
+        }
+
+        .topbar-inner {
+          min-height: 64px;
+        }
+
+        .hero-stage {
+          min-height: auto;
+          border-radius: 18px;
+        }
+
+        .hero-content {
+          gap: 0.9rem;
+          padding: 0.95rem;
+          padding-bottom: 1rem;
+        }
+
+        .hero-copy {
+          order: 0;
+        }
+
+        .hero-video-card {
+          min-height: 220px;
+          order: -1;
+        }
+
+        .hero-panel {
+          width: 100%;
+          justify-self: stretch;
+          order: 2;
+        }
+
+        .hero h1 {
+          font-size: clamp(2rem, 12vw, 3.4rem);
+          max-width: 10ch;
+        }
+
+        .hero p,
+        .intro,
+        .reels-head p,
+        .reel-copy p,
+        .story p,
+        .location-copy p,
+        .card p,
+        .step-card p {
+          font-size: 0.98rem;
+          line-height: 1.7;
+        }
+
+        .btn {
+          width: 100%;
+          text-align: center;
+          margin-left: 0;
+          margin-bottom: 0.55rem;
+        }
+
+        .btn.secondary {
+          margin-left: 0;
+        }
+
+        .card,
+        .step-card,
+        .story,
+        .location-copy,
+        .hero-panel {
+          border-radius: 16px;
+        }
+
+        .card-grid,
+        .steps-grid {
+          gap: 0.85rem;
+        }
+
+        .steps-grid::before {
+          display: none;
+        }
+
+        .step-card {
+          padding: 1rem;
+        }
+
+        .step-icon {
+          width: 76px;
+          height: 76px;
+          margin-bottom: 0.8rem;
+        }
+
+        .step-icon::after {
+          font-size: 1.9rem;
+        }
+
+        .map-frame,
+        .map-frame iframe {
+          min-height: 240px;
+        }
+
+        .reel-panel {
+          min-height: 72vh;
+        }
+
+        .top-nav {
+          display: none;
+        }
+
+        .brand {
+          padding: 0.15rem 0.25rem;
+        }
+
+        .brand-logo {
+          width: 118px;
+          height: 46px;
+        }
+      }
+
+      @keyframes drift {
+        from {
+          transform: translateY(0);
+        }
+        to {
+          transform: translateY(7px);
+        }
+      }
+
+      @keyframes dojoFloat {
+        from {
+          transform: translate3d(0, 0, 0) scale(1);
+        }
+        to {
+          transform: translate3d(0, -14px, 0) scale(1.02);
+        }
+      }
+
+      @keyframes dojoPan {
+        from {
+          transform: scale(1.04) translate3d(0, 0, 0);
+        }
+        to {
+          transform: scale(1.08) translate3d(-1.5%, -1%, 0);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="dojo-bg" aria-hidden="true"></div>
+    <div class="bg-video" aria-hidden="true">
+      <video autoplay muted loop playsinline poster="assets/photos/hero.jpg">
+        <source src="assets/videos/hero.mov" type="video/quicktime" />
+        <source src="assets/videos/hero-video.m4v" type="video/mp4" />
+      </video>
+    </div>
+    <div class="grain"></div>
+
+    <header class="topbar">
+      <div class="wrap topbar-inner">
+        <a class="brand" href="#home" aria-label="OCMA Martial Arts home">
+          <div class="brand-logo" aria-hidden="true"></div>
+        </a>
+          <nav class="top-nav">
+            <a href="#program">Programs</a>
+            <a href="#about">About</a>
+            <a href="#contact">Contact</a>
+            <a href="#location">Location</a>
+            <a href="#trial">Trial</a>
+          </nav>
+        </div>
+      </header>
+
+    <main>
+      <section class="hero" id="home">
+        <div class="wrap hero-stage">
+          <div class="hero-content">
+            <div class="hero-copy reveal">
+            <span class="eyebrow">OCMA STYLE · IRVINE, CA</span>
+            <h1>
+              <span>Build</span>
+              <span class="accent">Confidence</span>
+              <span>on the Mat</span>
+            </h1>
+            <p>
+              Train with purpose, discipline, and real-world confidence.
+            </p>
+            <p class="hero-subcopy">
+              Clean black-and-white styling with a bold red accent, designed to feel clear, fast, and premium.
+            </p>
+            <div class="hero-actions">
+              <a class="btn primary" href="#trial">Start a Trial</a>
+              <a class="btn secondary" href="#program">Programs</a>
+            </div>
+            <div class="hero-trust">
+              <span>Kids & Adults</span>
+              <span>Confidence First</span>
+              <span>Free Trial Ready</span>
+            </div>
+            <div class="hero-badge">Black. White. Red.</div>
+          </div>
+            <div class="hero-video-card reveal" aria-label="Featured training video">
+              <video autoplay muted loop playsinline poster="assets/photos/hero.jpg">
+                <source src="assets/videos/hero.mov" type="video/quicktime" />
+                <source src="assets/videos/hero-video.m4v" type="video/mp4" />
+              </video>
+            </div>
+            <aside class="hero-panel reveal">
+              <h3><span class="accent">Start</span> Here</h3>
+              <p>Pick your program and book your first lesson in under a minute.</p>
+              <div class="lead-form" id="trial">
+                <h4>Book a Trial</h4>
+                <form class="row" onsubmit="return false;">
+                  <input type="text" placeholder="Your name" />
+                  <input type="tel" placeholder="Phone number" />
+                  <select>
+                    <option>Choose a program</option>
+                    <option>Children</option>
+                    <option>Adults</option>
+                    <option>Self Defense</option>
+                  </select>
+                  <button type="button">Get Started</button>
+                </form>
+              </div>
+            </aside>
+          </div>
+        </div>
+      </section>
+
+      <section id="program">
+        <div class="wrap">
+          <h2 class="section-title">Our <span class="accent">Programs</span></h2>
+          <p class="intro">
+            We kept the proven conversion pattern: a focused intro, clear path to action, and simple service cards.
+            The result is direct and premium while staying easy to understand.
+          </p>
+          <div class="card-grid">
+            <article class="card reveal">
+              <div class="card-media">
+                <img src="assets/photos/program-1.jpg" alt="Children martial arts training" />
+              </div>
+              <h4><span class="accent">Children</span></h4>
+              <p>A structured path for ages 3-12 to build discipline, focus, and social confidence.</p>
+            </article>
+            <article class="card reveal">
+              <div class="card-media">
+                <img src="assets/photos/program-2.jpg" alt="Adult martial arts training" />
+              </div>
+              <h4><span class="accent">Adults</span></h4>
+              <p>High-intensity fitness and practical training for busy adults who want functional progress.</p>
+            </article>
+            <article class="card reveal">
+              <div class="card-media">
+                <img src="assets/photos/program-3.jpg" alt="Self defense martial arts training" />
+              </div>
+              <h4><span class="accent">Self Defense</span></h4>
+              <p>Practical, modern techniques designed for real-world safety and mindset readiness.</p>
+            </article>
+          </div>
+          <div class="steps reveal">
+            <div class="steps-head">
+              <h3>Getting Started Is Easy!</h3>
+              <p>Turn the sign-up flow into a visual three-step path that feels inviting, clear, and alive.</p>
+            </div>
+            <div class="steps-grid">
+              <article class="step-card">
+                <div class="step-num">01</div>
+                <div class="step-icon" aria-hidden="true"></div>
+                <h4>Redeem</h4>
+                <p>Choose one of our exclusive web offers and get started with confidence.</p>
+              </article>
+              <article class="step-card">
+                <div class="step-num">02</div>
+                <div class="step-icon" aria-hidden="true"></div>
+                <h4>Schedule</h4>
+                <p>Book your first lesson and pick the program that fits your goals.</p>
+              </article>
+              <article class="step-card">
+                <div class="step-num">03</div>
+                <div class="step-icon" aria-hidden="true"></div>
+                <h4>Begin</h4>
+                <p>Step onto the mat and start your martial arts journey with purpose.</p>
+              </article>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="about">
+        <div class="wrap">
+          <h2 class="section-title">Instructor <span class="accent">Story</span></h2>
+          <div class="story reveal">
+            <div class="story-media">
+            </div>
+            <div>
+            <p>
+              Tyler Kim is a 4th Degree Black Belt in Taekwondo with over 16 years of martial arts training and experience.
+              He brings high energy, enthusiasm, and a positive attitude to every class, creating an environment where students feel
+              motivated, supported, and excited to challenge themselves.
+            </p>
+            <p>
+              Tyler believes Taekwondo is about more than kicking and punching. His teaching focuses on self-defense, honesty,
+              respect, discipline, and strong listening skills while helping students build confidence, develop character, and grow
+              both on and off the mat.
+            </p>
+            <p>
+              Whether working with young beginners or advanced students, Tyler is dedicated to helping each student reach their full
+              potential and turn every class into a positive experience that inspires growth, perseverance, and success inside and
+              outside the dojang.
+            </p>
+            <p class="owner"><span class="accent">MASTER KIM</span> · Founder</p>
+            </div>
+          </div>
+          <div class="gallery reveal">
+            <div class="gallery-item"><img src="assets/photos/gallery-1.jpg" alt="Martial arts photo gallery one" /></div>
+            <div class="gallery-item"><img src="assets/photos/gallery-2.jpg" alt="Martial arts photo gallery two" /></div>
+            <div class="gallery-item"><img src="assets/photos/program-2.jpg" alt="Martial arts photo gallery three" /></div>
+          </div>
+        </div>
+      </section>
+
+      <section>
+        <div class="wrap">
+          <h2 class="section-title">Why <span class="accent">Parents Choose Us</span></h2>
+          <div class="trust">
+            <div class="stat">
+              <h3><span class="accent">24/7</span></h3>
+              <p>CONSULT READY</p>
+            </div>
+            <div class="stat">
+              <h3><span class="accent">100%</span></h3>
+              <p>MONOCHROME + RED</p>
+            </div>
+            <div class="stat">
+              <h3><span class="accent">Fast</span></h3>
+              <p>TRIAL FLOW</p>
+            </div>
+            <div class="stat">
+              <h3><span class="accent">Clear</span></h3>
+              <p>STEP FORM</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="location">
+        <div class="wrap">
+          <h2 class="section-title">Our <span class="accent">Location</span></h2>
+          <div class="location-wrap">
+            <div class="location-copy">
+              <p><strong>Address</strong></p>
+              <p id="addressText">123 Martial Arts Way, Irvine, CA 92618, USA</p>
+              <p><strong>Phone</strong></p>
+              <p>9493169308</p>
+              <p><strong>Email</strong></p>
+              <p>contact@taekwon-dojang.kr</p>
+              <p><strong>Hours</strong></p>
+              <p>Mon-Fri: 4:00PM - 9:00PM, Sat: 9:00AM - 2:00PM</p>
+              <button class="copy-address" id="copyAddressButton" type="button">Copy Address</button>
+            </div>
+            <div class="map-frame">
+              <iframe
+                title="TAEKWON DOJANG location"
+                loading="lazy"
+                referrerpolicy="no-referrer-when-downgrade"
+                allowfullscreen
+                src="https://www.google.com/maps?q=123%20Martial%20Arts%20Way%2C%20Irvine%2C%20CA%2092618&output=embed"
+              ></iframe>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="reels" class="reels">
+        <div class="wrap">
+          <div class="reels-head">
+            <div>
+              <h2 class="section-title">Scroll <span class="accent">The Videos</span></h2>
+              <p>Each scroll reveals the next clip, so the site feels like a cinematic reel instead of a static page.</p>
+            </div>
+          </div>
+
+          <article class="reel-panel reveal">
+            <video class="reel-video" autoplay muted loop playsinline preload="metadata" poster="assets/photos/hero.jpg">
+              <source src="assets/videos/reel-1.m4v" type="video/mp4" />
+              <source src="assets/videos/reel-1.mov" type="video/quicktime" />
+            </video>
+            <div class="reel-copy">
+              <span class="reel-tag">01 / Training Energy</span>
+              <h3>Move with confidence.</h3>
+              <p>High-energy practice moments that set the tone for the entire page.</p>
+            </div>
+          </article>
+
+          <article class="reel-panel reveal">
+            <video class="reel-video" autoplay muted loop playsinline preload="metadata" poster="assets/photos/program-1.jpg">
+              <source src="assets/videos/reel-2.m4v" type="video/mp4" />
+              <source src="assets/videos/reel-2.mov" type="video/quicktime" />
+            </video>
+            <div class="reel-copy">
+              <span class="reel-tag">02 / Focus & Discipline</span>
+              <h3>Build strong habits.</h3>
+              <p>Use the second clip to shift the mood from power into form and control.</p>
+            </div>
+          </article>
+
+          <article class="reel-panel reveal">
+            <video class="reel-video" autoplay muted loop playsinline preload="metadata" poster="assets/photos/program-2.jpg">
+              <source src="assets/videos/reel-3.m4v" type="video/mp4" />
+              <source src="assets/videos/reel-3.mov" type="video/quicktime" />
+            </video>
+            <div class="reel-copy">
+              <span class="reel-tag">03 / Community</span>
+              <h3>Train together.</h3>
+              <p>Bring in the social side of the dojang with a more human, welcoming frame.</p>
+            </div>
+          </article>
+
+          <article class="reel-panel reveal">
+            <video class="reel-video" autoplay muted loop playsinline preload="metadata" poster="assets/photos/about.jpg">
+              <source src="assets/videos/reel-4.m4v" type="video/mp4" />
+              <source src="assets/videos/reel-4.mov" type="video/quicktime" />
+            </video>
+            <div class="reel-copy">
+              <span class="reel-tag">04 / Coaching</span>
+              <h3>Learn from the best.</h3>
+              <p>Show the instructor side and let the story feel personal and trustworthy.</p>
+            </div>
+          </article>
+
+          <article class="reel-panel reveal">
+            <video class="reel-video" autoplay muted loop playsinline preload="metadata" poster="assets/photos/gallery-1.jpg">
+              <source src="assets/videos/reel-5.m4v" type="video/mp4" />
+              <source src="assets/videos/reel-5.mov" type="video/quicktime" />
+            </video>
+            <div class="reel-copy">
+              <span class="reel-tag">05 / Finish Strong</span>
+              <h3>Leave inspired.</h3>
+              <p>Close the sequence with motion, energy, and a final emotional lift.</p>
+            </div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <footer id="contact">
+      <div class="wrap footer-row">
+        <p>© 2026 TAEKWON DOJANG. All Rights Reserved.</p>
+        <p>contact@taekwon-dojang.kr | 9493169308</p>
+      </div>
+    </footer>
+
+    <script>
+      const reveals = document.querySelectorAll('.reveal');
+      const onScroll = () => {
+        const marker = window.scrollY + window.innerHeight - 50;
+        reveals.forEach((el) => {
+          if (el.offsetTop < marker) {
+            el.classList.add('show');
+          }
+        });
+      };
+      window.addEventListener('scroll', onScroll);
+      onScroll();
+
+      const reelVideos = Array.from(document.querySelectorAll('.reel-video'));
+      const reelObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            const video = entry.target;
+            if (entry.isIntersecting) {
+              video.play().catch(() => {});
+            } else {
+              video.pause();
+            }
+          });
+        },
+        { threshold: 0.55 }
+      );
+
+      reelVideos.forEach((video) => reelObserver.observe(video));
+
+      const copyButton = document.getElementById('copyAddressButton');
+      const addressText = document.getElementById('addressText');
+      if (copyButton && addressText) {
+        copyButton.addEventListener('click', async () => {
+          try {
+            await navigator.clipboard.writeText(addressText.textContent || '');
+            copyButton.textContent = 'Copied!';
+            setTimeout(() => {
+              copyButton.textContent = 'Copy Address';
+            }, 1600);
+          } catch {
+            copyButton.textContent = 'Press Ctrl+C';
+            setTimeout(() => {
+              copyButton.textContent = 'Copy Address';
+            }, 1600);
+          }
+        });
+      }
+    </script>
+  </body>
+</html>
