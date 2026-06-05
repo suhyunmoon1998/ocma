@@ -20,6 +20,36 @@
         box-sizing: border-box;
       }
 
+      .sr-only {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+      }
+
+      .skip-link {
+        position: absolute;
+        left: 12px;
+        top: -40px;
+        z-index: 100;
+        background: var(--red);
+        color: var(--white);
+        padding: 0.65rem 0.85rem;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 800;
+        letter-spacing: 0.08em;
+      }
+
+      .skip-link:focus {
+        top: 12px;
+      }
+
       html,
       body {
         margin: 0;
@@ -30,6 +60,28 @@
           linear-gradient(180deg, rgba(5, 5, 5, 0.78), rgba(5, 5, 5, 0.78)),
           url('assets/backgrounds/dojo-bg.png') center center / cover no-repeat fixed;
         scroll-behavior: smooth;
+      }
+
+      html {
+        font-size: calc(100% * var(--a11y-scale, 1));
+      }
+
+      html.a11y-high-contrast {
+        --line: #3a3a3a;
+        --muted: #efefef;
+      }
+
+      html.a11y-high-contrast body {
+        filter: contrast(1.1) brightness(1.03);
+      }
+
+      html.a11y-reduce-motion *,
+      html.a11y-reduce-motion *::before,
+      html.a11y-reduce-motion *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
       }
 
       body {
@@ -174,7 +226,7 @@
 
       .hero {
         position: relative;
-        padding: 3rem 0 3rem;
+        padding: 2.2rem 0 2.1rem;
         z-index: 2;
       }
 
@@ -481,7 +533,7 @@
       }
 
       section {
-        padding: 3.5rem 0;
+        padding: 2.9rem 0;
         border-top: 1px solid var(--line);
         position: relative;
         z-index: 2;
@@ -502,24 +554,24 @@
       .intro {
         color: var(--muted);
         max-width: 70ch;
-        line-height: 1.8;
+        line-height: 1.65;
       }
 
       .card-grid {
-        margin-top: 1.3rem;
+        margin-top: 1.05rem;
         display: grid;
         grid-template-columns: repeat(3, minmax(0, 1fr));
         gap: 0.9rem;
       }
 
       .steps {
-        margin-top: 2rem;
+        margin-top: 1.5rem;
         position: relative;
       }
 
       .steps-head {
         text-align: center;
-        margin-bottom: 1.35rem;
+        margin-bottom: 1rem;
       }
 
       .steps-head h3 {
@@ -1136,6 +1188,80 @@
         gap: 1rem;
       }
 
+      .a11y-fab {
+        position: fixed;
+        right: 18px;
+        bottom: 18px;
+        z-index: 60;
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        background: rgba(10, 10, 10, 0.92);
+        color: var(--white);
+        border-radius: 999px;
+        padding: 0.72rem 0.95rem;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+
+      .a11y-panel {
+        position: fixed;
+        right: 18px;
+        bottom: 68px;
+        width: min(280px, calc(100vw - 36px));
+        z-index: 60;
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        background: rgba(8, 8, 8, 0.96);
+        backdrop-filter: blur(12px);
+        border-radius: 18px;
+        padding: 0.9rem;
+        box-shadow: 0 18px 48px rgba(0, 0, 0, 0.38);
+        display: none;
+      }
+
+      .a11y-panel.open {
+        display: grid;
+        gap: 0.6rem;
+      }
+
+      .a11y-panel h3 {
+        margin: 0 0 0.2rem;
+        font-size: 0.82rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+      }
+
+      .a11y-actions {
+        display: grid;
+        gap: 0.5rem;
+      }
+
+      .a11y-actions button {
+        width: 100%;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.04);
+        color: var(--text);
+        padding: 0.72rem 0.8rem;
+        border-radius: 12px;
+        text-align: left;
+        font-weight: 700;
+        cursor: pointer;
+      }
+
+      .a11y-actions button.active {
+        border-color: var(--red);
+        color: var(--red);
+      }
+
+      a:focus-visible,
+      button:focus-visible,
+      input:focus-visible,
+      select:focus-visible {
+        outline: 2px solid var(--red);
+        outline-offset: 3px;
+      }
+
       .highlight {
         color: var(--red);
       }
@@ -1385,6 +1511,7 @@
     </style>
   </head>
   <body>
+    <a class="skip-link" href="#home">Skip to content</a>
     <div class="cursor-glow" aria-hidden="true"></div>
     <div class="dojo-bg" aria-hidden="true"></div>
     <div class="bg-video" aria-hidden="true">
@@ -1447,15 +1574,18 @@
               <div class="lead-form" id="trial">
                 <h4>Book a Trial</h4>
                 <form class="row" onsubmit="return false;">
-                  <input type="text" placeholder="Your name" />
-                  <input type="tel" placeholder="Phone number" />
-                  <select>
-                    <option>Choose a program</option>
-                    <option>Children</option>
-                    <option>Adults</option>
-                    <option>Self Defense</option>
-                  </select>
-                  <button type="button">Get Started</button>
+              <label class="sr-only" for="trial-name">Your name</label>
+              <input id="trial-name" type="text" placeholder="Your name" />
+              <label class="sr-only" for="trial-phone">Phone number</label>
+              <input id="trial-phone" type="tel" placeholder="Phone number" />
+              <label class="sr-only" for="trial-program">Choose a program</label>
+              <select id="trial-program">
+                <option>Choose a program</option>
+                <option>Children</option>
+                <option>Adults</option>
+                <option>Self Defense</option>
+              </select>
+              <button type="button" aria-label="Get started with a trial">Get Started</button>
                 </form>
               </div>
             </aside>
@@ -1762,6 +1892,18 @@
       </div>
     </footer>
 
+    <button class="a11y-fab" id="a11yToggle" type="button" aria-expanded="false" aria-controls="a11yPanel">
+      ♿
+    </button>
+    <div class="a11y-panel" id="a11yPanel" aria-hidden="true">
+      <h3>Accessibility</h3>
+      <div class="a11y-actions">
+        <button type="button" data-a11y="text">Text Size</button>
+        <button type="button" data-a11y="contrast">High Contrast</button>
+        <button type="button" data-a11y="motion">Reduce Motion</button>
+      </div>
+    </div>
+
     <script>
       const reveals = document.querySelectorAll('.reveal');
       const onScroll = () => {
@@ -1843,6 +1985,36 @@
       mouseX = window.innerWidth / 2;
       mouseY = window.innerHeight / 3;
       rafId = requestAnimationFrame(tick);
+
+      const a11yToggle = document.getElementById('a11yToggle');
+      const a11yPanel = document.getElementById('a11yPanel');
+      const a11yButtons = Array.from(document.querySelectorAll('[data-a11y]'));
+      const htmlEl = document.documentElement;
+      const a11yState = { text: false, contrast: false, motion: false };
+
+      const syncA11yButtons = () => {
+        a11yButtons.forEach((button) => {
+          const key = button.getAttribute('data-a11y');
+          button.classList.toggle('active', Boolean(a11yState[key]));
+        });
+      };
+
+      a11yToggle?.addEventListener('click', () => {
+        const open = a11yPanel.classList.toggle('open');
+        a11yToggle.setAttribute('aria-expanded', String(open));
+        a11yPanel.setAttribute('aria-hidden', String(!open));
+      });
+
+      a11yButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const key = button.getAttribute('data-a11y');
+          a11yState[key] = !a11yState[key];
+          htmlEl.classList.toggle('a11y-high-contrast', a11yState.contrast);
+          htmlEl.classList.toggle('a11y-reduce-motion', a11yState.motion);
+          htmlEl.style.setProperty('--a11y-scale', a11yState.text ? '1.08' : '1');
+          syncA11yButtons();
+        });
+      });
     </script>
   </body>
 </html>
