@@ -542,6 +542,31 @@
         letter-spacing: 0.08em;
       }
 
+      .toast {
+        position: fixed;
+        left: 50%;
+        bottom: 20px;
+        transform: translateX(-50%) translateY(18px);
+        z-index: 20;
+        background: rgba(6, 6, 6, 0.92);
+        border: 1px solid rgba(255, 255, 255, 0.14);
+        border-radius: 999px;
+        padding: 12px 16px;
+        color: rgba(255, 255, 255, 0.94);
+        box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+        opacity: 0;
+        pointer-events: none;
+        transition: opacity 0.35s ease, transform 0.35s ease;
+        font-size: 0.78rem;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+      }
+
+      .toast.show {
+        opacity: 1;
+        transform: translateX(-50%) translateY(0);
+      }
+
       @keyframes float {
         0%,100% { transform: translateY(0); }
         50% { transform: translateY(-4px); }
@@ -613,7 +638,7 @@
 
           <div class="content">
             <div>
-              <span class="pill">OCMA Style · Irvine, CA</span>
+              <span class="pill">OCMA · Irvine, CA</span>
               <h1>Build <span class="accent">Confidence</span></h1>
 
               <div class="chips">
@@ -630,13 +655,26 @@
             <div class="info">
               <div class="panel">
                 <h2>Why OCMA</h2>
-                <p>
-                  Confidence-first training, strong discipline, and a welcoming environment for beginners and
-                  returning students.
-                </p>
+                <p>Confidence, discipline, and a place to start strong.</p>
               </div>
 
               <div class="details-grid">
+                <div class="contact-panel" id="form">
+                  <h2>Book a Trial</h2>
+                  <p>Drop your info and we’ll get you started.</p>
+                  <form class="form" onsubmit="return false;">
+                    <input type="text" placeholder="Your name" />
+                    <input type="tel" placeholder="Phone number" />
+                    <select>
+                      <option>Choose a program</option>
+                      <option>Children</option>
+                      <option>Adults</option>
+                      <option>Self Defense</option>
+                    </select>
+                    <button type="button">Get Started</button>
+                  </form>
+                </div>
+
                 <section class="hours-card" aria-label="Hours of Operation">
                   <div class="hours-head">Hours of Operation</div>
                   <div class="hours-list">
@@ -667,9 +705,7 @@
                     <div>15435 Jeffrey Rd, Suite 100, Irvine, CA 92618</div>
                   </div>
                   <p class="contact-copy">
-                    Thank you for your interest in OC ATA Martial Arts. We are always available to answer any
-                    questions by phone, or you may use the form below and a representative will contact you within 24
-                    hours.
+                    Questions? Call us or send the form and we’ll follow up within 24 hours.
                   </p>
                   <div class="social-links">
                     <a href="https://www.facebook.com/ocma.laderaranch/" target="_blank" rel="noreferrer">
@@ -682,22 +718,6 @@
                 </div>
               </div>
 
-              <div class="panel" id="form">
-                <h2>Book a Trial</h2>
-                <p>Leave your info and we’ll help you find the best class.</p>
-                <form class="form" onsubmit="return false;">
-                  <input type="text" placeholder="Your name" />
-                  <input type="tel" placeholder="Phone number" />
-                  <select>
-                    <option>Choose a program</option>
-                    <option>Children</option>
-                    <option>Adults</option>
-                    <option>Self Defense</option>
-                  </select>
-                  <button type="button">Get Started</button>
-                </form>
-              </div>
-
               <div class="reviews">
                 <div class="reviews-head">
                   <div>
@@ -707,12 +727,12 @@
                 <div class="review-grid">
                   <article class="review-card">
                     <div class="review-stars">★★★★★</div>
-                    <p>Supportive instructors, helpful communication, and a welcoming place for kids to learn.</p>
+                    <p>Supportive instructors and a welcoming place for kids to learn.</p>
                     <div class="review-meta">Family friendly</div>
                   </article>
                   <article class="review-card">
                     <div class="review-stars">★★★★★</div>
-                    <p>Students build discipline, respect, and real martial arts skills while staying excited to return.</p>
+                    <p>Students build discipline, respect, and real martial arts skills.</p>
                     <div class="review-meta">Confidence + character</div>
                   </article>
                 </div>
@@ -735,12 +755,24 @@
       </div>
     </main>
 
+    <div class="toast" id="ctaToast">Start a Trial • Call Now</div>
+
     <script>
       const root = document.documentElement;
       window.addEventListener('pointermove', (e) => {
         root.style.setProperty('--mx', `${e.clientX}px`);
         root.style.setProperty('--my', `${e.clientY}px`);
       });
+
+      const toast = document.getElementById('ctaToast');
+      window.setTimeout(() => {
+        if (toast) {
+          toast.classList.add('show');
+          window.setTimeout(() => {
+            toast.classList.remove('show');
+          }, 4500);
+        }
+      }, 10000);
     </script>
   </body>
 </html>
