@@ -3,6 +3,14 @@
   "trailingSlash": false,
   "rewrites": [
     {
+      "source": "/landing",
+      "destination": "/instagram.html"
+    },
+    {
+      "source": "/instagram",
+      "destination": "/instagram.html"
+    },
+    {
       "source": "/(.*)",
       "destination": "/index.html"
     }
