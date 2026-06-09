@@ -157,19 +157,24 @@
         width: 54px;
         height: 54px;
         border-radius: 16px;
-        background: linear-gradient(180deg, rgba(255,255,255,0.08), rgba(255,255,255,0.03));
-        border: 1px solid var(--line);
+        background: transparent;
+        border: 0;
         display: grid;
         place-items: center;
-        color: var(--red);
-        font-weight: 900;
-        letter-spacing: 0.1em;
+        overflow: hidden;
       }
 
       .brand-text strong {
         display: block;
         font-size: 0.95rem;
         letter-spacing: 0.16em;
+      }
+
+      .brand-mark img {
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        display: block;
       }
 
       .brand-text span {
@@ -820,7 +825,9 @@
         <section class="card">
           <div class="topbar">
             <a class="brand" href="#form">
-              <div class="brand-mark">OC</div>
+              <div class="brand-mark">
+                <img src="assets/branding/ocma.png" alt="" />
+              </div>
               <div class="brand-text">
                 <strong>OCMA</strong>
               </div>
