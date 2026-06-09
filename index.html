@@ -763,27 +763,31 @@
       }
 
       .story-media img {
-        display: none;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+        position: relative;
+        z-index: 1;
       }
 
       .story-media::before {
-        content: 'PHOTO';
-        position: relative;
-        z-index: 1;
-        color: rgba(255, 255, 255, 0.85);
-        font-size: 0.85rem;
-        letter-spacing: 0.3em;
-        text-transform: uppercase;
-        font-weight: 800;
+        content: '';
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+        background:
+          radial-gradient(circle at 20% 20%, rgba(226, 33, 33, 0.12), transparent 28%),
+          linear-gradient(135deg, transparent 0 42%, rgba(255, 255, 255, 0.04) 42% 58%, transparent 58% 100%);
       }
 
       .story-media::after {
         content: '';
+        position: relative;
+        z-index: 2;
         position: absolute;
         inset: 0;
-        background:
-          radial-gradient(circle at 20% 20%, rgba(226, 33, 33, 0.18), transparent 28%),
-          linear-gradient(135deg, transparent 0 42%, rgba(255, 255, 255, 0.06) 42% 58%, transparent 58% 100%);
+        background: linear-gradient(180deg, transparent 0 65%, rgba(0, 0, 0, 0.2) 100%);
       }
 
       .story p {
@@ -844,14 +848,60 @@
         line-height: 1.7;
       }
 
+      .reels-nav {
+        display: flex;
+        gap: 0.5rem;
+        justify-content: flex-end;
+        margin-bottom: 0.75rem;
+      }
+
+      .reels-nav button {
+        border: 1px solid var(--line);
+        background: rgba(0, 0, 0, 0.35);
+        color: var(--text);
+        border-radius: 999px;
+        padding: 0.55rem 0.8rem;
+        font-size: 0.72rem;
+        font-weight: 800;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        cursor: pointer;
+      }
+
+      .reels-track {
+        display: grid;
+        grid-auto-flow: column;
+        grid-auto-columns: minmax(78vw, 980px);
+        gap: 1rem;
+        overflow-x: auto;
+        padding: 0.5rem 0 0.25rem;
+        scroll-snap-type: x mandatory;
+        scroll-behavior: smooth;
+        overscroll-behavior-x: contain;
+        -webkit-overflow-scrolling: touch;
+      }
+
+      .reels-track::-webkit-scrollbar {
+        height: 10px;
+      }
+
+      .reels-track::-webkit-scrollbar-thumb {
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: 999px;
+      }
+
+      .reels-track::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.04);
+      }
+
       .reel-panel {
         position: relative;
-        min-height: min(88vh, 920px);
-        margin-top: 1rem;
+        min-height: min(78vh, 760px);
         overflow: hidden;
         border-radius: 24px;
         border: 1px solid var(--line);
         background: #050505;
+        scroll-snap-align: start;
       }
 
       .reel-panel video {
@@ -1412,6 +1462,15 @@
           min-height: 72vh;
         }
 
+        .reels-track {
+          grid-auto-columns: minmax(86vw, 86vw);
+          gap: 0.8rem;
+        }
+
+        .reels-nav {
+          justify-content: space-between;
+        }
+
         .reviews-head {
           align-items: flex-start;
           flex-direction: column;
@@ -1656,6 +1715,7 @@
           <h2 class="section-title">Instructor <span class="accent">Story</span></h2>
           <div class="story reveal">
             <div class="story-media">
+              <img src="assets/photos/instructor.jpg" alt="Master Kim portrait" />
             </div>
             <div>
             <p>
@@ -1818,69 +1878,76 @@
           <div class="reels-head">
             <div>
               <h2 class="section-title">Scroll <span class="accent">The Videos</span></h2>
-              <p>Each scroll reveals the next clip, so the site feels like a cinematic reel instead of a static page.</p>
+              <p>Swipe sideways to move through the clips like a reel.</p>
             </div>
           </div>
 
-          <article class="reel-panel reveal">
-            <video class="reel-video" autoplay muted loop playsinline preload="metadata" poster="assets/photos/hero.jpg">
-              <source src="assets/videos/reel-1.m4v" type="video/mp4" />
-              <source src="assets/videos/reel-1.mov" type="video/quicktime" />
-            </video>
-            <div class="reel-copy">
-              <span class="reel-tag">01 / Training Energy</span>
-              <h3>Move with confidence.</h3>
-              <p>High-energy practice moments that set the tone for the entire page.</p>
-            </div>
-          </article>
+          <div class="reels-nav">
+            <button type="button" id="reelsPrev">Prev</button>
+            <button type="button" id="reelsNext">Next</button>
+          </div>
 
-          <article class="reel-panel reveal">
-            <video class="reel-video" autoplay muted loop playsinline preload="metadata" poster="assets/photos/program-1.jpg">
-              <source src="assets/videos/reel-2.m4v" type="video/mp4" />
-              <source src="assets/videos/reel-2.mov" type="video/quicktime" />
-            </video>
-            <div class="reel-copy">
-              <span class="reel-tag">02 / Focus & Discipline</span>
-              <h3>Build strong habits.</h3>
-              <p>Use the second clip to shift the mood from power into form and control.</p>
-            </div>
-          </article>
+          <div class="reels-track" id="reelsTrack">
+            <article class="reel-panel reveal">
+              <video class="reel-video" autoplay muted loop playsinline preload="metadata" poster="assets/photos/hero.jpg">
+                <source src="assets/videos/reel-1.m4v" type="video/mp4" />
+                <source src="assets/videos/reel-1.mov" type="video/quicktime" />
+              </video>
+              <div class="reel-copy">
+                <span class="reel-tag">01 / Training Energy</span>
+                <h3>Move with confidence.</h3>
+                <p>High-energy practice moments that set the tone for the entire page.</p>
+              </div>
+            </article>
 
-          <article class="reel-panel reveal">
-            <video class="reel-video" autoplay muted loop playsinline preload="metadata" poster="assets/photos/program-2.jpg">
-              <source src="assets/videos/reel-3.m4v" type="video/mp4" />
-              <source src="assets/videos/reel-3.mov" type="video/quicktime" />
-            </video>
-            <div class="reel-copy">
-              <span class="reel-tag">03 / Community</span>
-              <h3>Train together.</h3>
-              <p>Bring in the social side of the dojang with a more human, welcoming frame.</p>
-            </div>
-          </article>
+            <article class="reel-panel reveal">
+              <video class="reel-video" autoplay muted loop playsinline preload="metadata" poster="assets/photos/program-1.jpg">
+                <source src="assets/videos/reel-2.m4v" type="video/mp4" />
+                <source src="assets/videos/reel-2.mov" type="video/quicktime" />
+              </video>
+              <div class="reel-copy">
+                <span class="reel-tag">02 / Focus & Discipline</span>
+                <h3>Build strong habits.</h3>
+                <p>Use the second clip to shift the mood from power into form and control.</p>
+              </div>
+            </article>
 
-          <article class="reel-panel reveal">
-            <video class="reel-video" autoplay muted loop playsinline preload="metadata" poster="assets/photos/about.jpg">
-              <source src="assets/videos/reel-4.m4v" type="video/mp4" />
-              <source src="assets/videos/reel-4.mov" type="video/quicktime" />
-            </video>
-            <div class="reel-copy">
-              <span class="reel-tag">04 / Coaching</span>
-              <h3>Learn from the best.</h3>
-              <p>Show the instructor side and let the story feel personal and trustworthy.</p>
-            </div>
-          </article>
+            <article class="reel-panel reveal">
+              <video class="reel-video" autoplay muted loop playsinline preload="metadata" poster="assets/photos/program-2.jpg">
+                <source src="assets/videos/reel-3.m4v" type="video/mp4" />
+                <source src="assets/videos/reel-3.mov" type="video/quicktime" />
+              </video>
+              <div class="reel-copy">
+                <span class="reel-tag">03 / Community</span>
+                <h3>Train together.</h3>
+                <p>Bring in the social side of the dojang with a more human, welcoming frame.</p>
+              </div>
+            </article>
 
-          <article class="reel-panel reveal">
-            <video class="reel-video" autoplay muted loop playsinline preload="metadata" poster="assets/photos/gallery-1.jpg">
-              <source src="assets/videos/reel-5.m4v" type="video/mp4" />
-              <source src="assets/videos/reel-5.mov" type="video/quicktime" />
-            </video>
-            <div class="reel-copy">
-              <span class="reel-tag">05 / Finish Strong</span>
-              <h3>Leave inspired.</h3>
-              <p>Close the sequence with motion, energy, and a final emotional lift.</p>
-            </div>
-          </article>
+            <article class="reel-panel reveal">
+              <video class="reel-video" autoplay muted loop playsinline preload="metadata" poster="assets/photos/about.jpg">
+                <source src="assets/videos/reel-4.m4v" type="video/mp4" />
+                <source src="assets/videos/reel-4.mov" type="video/quicktime" />
+              </video>
+              <div class="reel-copy">
+                <span class="reel-tag">04 / Coaching</span>
+                <h3>Learn from the best.</h3>
+                <p>Show the instructor side and let the story feel personal and trustworthy.</p>
+              </div>
+            </article>
+
+            <article class="reel-panel reveal">
+              <video class="reel-video" autoplay muted loop playsinline preload="metadata" poster="assets/photos/gallery-1.jpg">
+                <source src="assets/videos/reel-5.m4v" type="video/mp4" />
+                <source src="assets/videos/reel-5.mov" type="video/quicktime" />
+              </video>
+              <div class="reel-copy">
+                <span class="reel-tag">05 / Finish Strong</span>
+                <h3>Leave inspired.</h3>
+                <p>Close the sequence with motion, energy, and a final emotional lift.</p>
+              </div>
+            </article>
+          </div>
         </div>
       </section>
     </main>
@@ -1933,6 +2000,20 @@
       );
 
       reelVideos.forEach((video) => reelObserver.observe(video));
+
+      const reelsTrack = document.getElementById('reelsTrack');
+      const reelsPrev = document.getElementById('reelsPrev');
+      const reelsNext = document.getElementById('reelsNext');
+      const reelCards = Array.from(document.querySelectorAll('.reel-panel'));
+
+      const scrollReels = (direction) => {
+        if (!reelsTrack || reelCards.length === 0) return;
+        const cardWidth = reelCards[0].getBoundingClientRect().width + 16;
+        reelsTrack.scrollBy({ left: direction * cardWidth, behavior: 'smooth' });
+      };
+
+      reelsPrev?.addEventListener('click', () => scrollReels(-1));
+      reelsNext?.addEventListener('click', () => scrollReels(1));
 
       const copyButton = document.getElementById('copyAddressButton');
       const addressText = document.getElementById('addressText');
