@@ -630,7 +630,7 @@
         display: grid;
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 1rem;
-        font-family: 'Nanum Brush Script', 'Brush Script MT', cursive;
+        font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
       }
 
       .offer-card {
@@ -647,6 +647,21 @@
         text-align: center;
         transform: translateZ(0);
         transition: transform 0.32s ease, box-shadow 0.32s ease, border-color 0.32s ease;
+        isolation: isolate;
+      }
+
+      .offer-card::after {
+        content: '';
+        position: absolute;
+        inset: -40% auto auto -20%;
+        width: 70%;
+        height: 70%;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.5) 0%, rgba(255, 255, 255, 0) 70%);
+        filter: blur(22px);
+        opacity: 0.38;
+        z-index: -1;
+        pointer-events: none;
       }
 
       .offer-card:hover {
@@ -722,12 +737,12 @@
         background: rgba(255, 255, 255, 0.96);
         color: #8f0d10;
         border-radius: 999px;
-        padding: 0.62rem 0.95rem;
-        min-width: min(100%, 170px);
+        padding: 0.48rem 0.76rem;
+        min-width: min(100%, 132px);
         font-family: inherit;
-        font-size: 0.78rem;
-        font-weight: 900;
-        text-transform: uppercase;
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: none;
         letter-spacing: 0.06em;
         box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
       }
@@ -1694,9 +1709,9 @@
         }
 
         .offer-select {
-          min-width: 132px;
-          padding: 0.58rem 0.82rem;
-          font-size: 0.74rem;
+          min-width: 108px;
+          padding: 0.46rem 0.68rem;
+          font-size: 0.68rem;
         }
 
         .offer-note {
@@ -1742,9 +1757,9 @@
         }
 
         .offer-select {
-          min-width: 100%;
-          padding: 0.88rem 1rem;
-          font-size: 0.92rem;
+          min-width: 112px;
+          padding: 0.48rem 0.72rem;
+          font-size: 0.7rem;
         }
 
         .hero h1 {
