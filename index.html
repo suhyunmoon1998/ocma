@@ -604,11 +604,29 @@
         flex-wrap: wrap;
       }
 
-      .offers-labels span {
+      .offer-tab {
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        background: rgba(255, 255, 255, 0.03);
         color: rgba(255, 255, 255, 0.86);
-        font-size: 0.82rem;
+        border-radius: 999px;
+        padding: 0.48rem 0.9rem;
+        min-width: 174px;
+        text-align: center;
+        font-size: 0.72rem;
         letter-spacing: 0.16em;
         text-transform: uppercase;
+        transition: background-color 0.28s ease, border-color 0.28s ease, box-shadow 0.28s ease;
+      }
+
+      .offer-tab:hover {
+        border-color: rgba(255, 255, 255, 0.4);
+      }
+
+      .offer-tab.active {
+        border-color: rgba(255, 255, 255, 0.68);
+        background: rgba(255, 255, 255, 0.12);
+        color: var(--white);
+        box-shadow: 0 12px 26px rgba(0, 0, 0, 0.32);
       }
 
       .offer-note {
@@ -627,15 +645,17 @@
       }
 
       .offers-grid {
-        display: grid;
-        grid-template-columns: repeat(2, minmax(0, 1fr));
-        gap: 1rem;
+        position: relative;
+        min-height: 360px;
         font-family: 'Pretendard', 'Apple SD Gothic Neo', 'Noto Sans KR', sans-serif;
       }
 
       .offer-card {
-        position: relative;
+        position: absolute;
+        inset: 0;
+        width: 100%;
         overflow: hidden;
+        z-index: 0;
         border-radius: 22px;
         border: 1px solid rgba(255, 255, 255, 0.08);
         background: linear-gradient(180deg, #e01d22 0%, #c91418 100%);
@@ -646,8 +666,24 @@
         align-content: center;
         text-align: center;
         transform: translateZ(0);
-        transition: transform 0.32s ease, box-shadow 0.32s ease, border-color 0.32s ease;
+        transition: transform 0.32s ease, box-shadow 0.32s ease, border-color 0.32s ease, opacity 0.3s ease, filter 0.32s ease, clip-path 0.3s ease;
         isolation: isolate;
+        clip-path: inset(0 0 0 0 round 22px);
+        opacity: 1;
+        filter: blur(0);
+      }
+
+      .offer-card.is-hidden {
+        clip-path: inset(50% 40% 50% 40% round 22px);
+        opacity: 0;
+        filter: blur(8px);
+        pointer-events: none;
+        z-index: 0;
+        transform: translateZ(0) scale(0.96) translateX(26px);
+      }
+
+      .offer-card:not(.is-hidden) {
+        z-index: 1;
       }
 
       .offer-card::after {
@@ -2084,13 +2120,12 @@
               <p>Choose your first trial offer. Clean, simple, and built to help families move from interest to action fast.</p>
             </div>
           </div>
-          <div class="offers-labels" aria-hidden="true">
-            <span>Adult Trial Offers</span>
-            <span>Children's Trial Offer</span>
+          <div class="offers-labels">
+            <button class="offer-tab active" type="button" data-offer-target="adults" aria-pressed="true">Adult Trial Offers</button>
+            <button class="offer-tab" type="button" data-offer-target="children" aria-pressed="false">Children's Trial Offer</button>
           </div>
           <div class="offers-grid">
             <article class="offer-card reveal" data-selected="true" data-program="adults">
-              <h3>Step 1: Choose Your Trial Offer</h3>
               <p class="offer-step">2 Weeks of Classes</p>
               <div class="offer-price">$20</div>
               <ul class="offer-list">
@@ -2102,7 +2137,6 @@
               <div class="offer-note">Tap to choose this offer</div>
             </article>
             <article class="offer-card reveal" data-program="children">
-              <h3>Step 1: Choose Your Trial Offer</h3>
               <p class="offer-step">2 Weeks of Classes</p>
               <div class="offer-price">$20</div>
               <ul class="offer-list">
@@ -2475,10 +2509,50 @@
       }
 
       const offerCards = Array.from(document.querySelectorAll('.offer-card'));
+      const offerTabs = Array.from(document.querySelectorAll('.offer-tab'));
       const offerButtons = Array.from(document.querySelectorAll('.offer-select'));
       const trialForm = document.getElementById('trial');
       const trialEmail = document.getElementById('trial-email');
       const trialProgram = document.getElementById('trial-program');
+
+      const switchOfferPanel = (program) => {
+        offerCards.forEach((card) => {
+          const isActive = card.dataset.program === program;
+          card.classList.toggle('is-hidden', !isActive);
+          card.dataset.selected = String(isActive);
+        });
+        offerTabs.forEach((tab) => {
+          const active = tab.dataset.offerTarget === program;
+          tab.classList.toggle('active', active);
+          tab.setAttribute('aria-pressed', String(active));
+        });
+        offerButtons.forEach((button) => {
+          const parentProgram = button.closest('.offer-card')?.getAttribute('data-program');
+          button.textContent = parentProgram === program ? 'Selected ✓' : `Select ${parentProgram === 'children' ? 'Children' : 'Adult'}`;
+        });
+        const visibleCard = offerCards.find((card) => card.getAttribute('data-program') === program);
+        if (visibleCard) {
+          if (trialProgram) {
+            trialProgram.value = program === 'children' ? 'Children' : 'Adults';
+          }
+          if (trialForm) {
+            trialForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+          window.setTimeout(() => {
+            trialEmail?.focus();
+          }, 420);
+        }
+      };
+
+      offerTabs.forEach((tab) => {
+        tab.addEventListener('click', () => {
+          const program = tab.getAttribute('data-offer-target');
+          if (!program) return;
+          switchOfferPanel(program);
+        });
+      });
+      switchOfferPanel('adults');
+
       offerButtons.forEach((button) => {
         button.addEventListener('click', () => {
           const card = button.closest('.offer-card');
@@ -2487,11 +2561,17 @@
             const selected = item === card;
             item.classList.toggle('selected', selected);
             item.dataset.selected = String(selected);
+            item.classList.toggle('is-hidden', !selected);
             const action = item.querySelector('.offer-select');
             if (action) {
               const program = item.getAttribute('data-program') || 'offer';
               action.textContent = selected ? 'Selected ✓' : `Select ${program === 'children' ? 'Children' : 'Adult'}`;
             }
+          });
+          offerTabs.forEach((tab) => {
+            const active = tab.dataset.offerTarget === (card.getAttribute('data-program') || 'adults');
+            tab.classList.toggle('active', active);
+            tab.setAttribute('aria-pressed', String(active));
           });
           if (trialForm) {
             trialForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
