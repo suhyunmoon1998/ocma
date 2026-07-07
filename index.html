@@ -60,6 +60,8 @@
           linear-gradient(180deg, rgba(5, 5, 5, 0.78), rgba(5, 5, 5, 0.78)),
           url('assets/backgrounds/dojo-bg.png') center center / cover no-repeat fixed;
         scroll-behavior: smooth;
+        perspective: 1600px;
+        perspective-origin: 50% 18%;
       }
 
       html {
@@ -526,6 +528,16 @@
         border-top: 1px solid var(--line);
         position: relative;
         z-index: 2;
+        transform-style: preserve-3d;
+        will-change: transform, opacity, filter;
+      }
+
+      section.is-3d {
+        transition:
+          transform 0.08s linear,
+          opacity 0.08s linear,
+          filter 0.08s linear;
+        transform-origin: center top;
       }
 
       .section-title {
@@ -593,25 +605,44 @@
       .offer-card {
         position: relative;
         overflow: hidden;
-        border-radius: 22px;
-        border: 1px solid rgba(255, 255, 255, 0.08);
+        border-radius: 24px;
+        border: 1px solid rgba(255, 255, 255, 0.12);
         background:
-          radial-gradient(circle at top center, rgba(255, 255, 255, 0.14), transparent 26%),
-          linear-gradient(180deg, #ef1f24, #c70f14 82%);
-        box-shadow: 0 22px 60px rgba(0, 0, 0, 0.34);
-        padding: 1.25rem;
-        min-height: 360px;
+          radial-gradient(circle at 50% 12%, rgba(255, 255, 255, 0.28), transparent 20%),
+          radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.08), transparent 20%),
+          linear-gradient(180deg, #ff2a2f 0%, #df1419 48%, #c70f14 100%);
+        box-shadow: 0 26px 70px rgba(0, 0, 0, 0.42);
+        padding: 1.4rem 1.2rem 1.2rem;
+        min-height: 380px;
         display: grid;
         align-content: center;
         text-align: center;
+        transform: translateZ(0);
+        transition: transform 0.32s ease, box-shadow 0.32s ease, border-color 0.32s ease;
+      }
+
+      .offer-card:hover {
+        transform: translateY(-6px) rotateX(1deg);
+        border-color: rgba(255, 255, 255, 0.22);
+        box-shadow: 0 30px 82px rgba(0, 0, 0, 0.5);
       }
 
       .offer-card::before {
         content: '';
         position: absolute;
         inset: 14px;
-        border: 1px solid rgba(255, 255, 255, 0.14);
-        border-radius: 16px;
+        border: 1px solid rgba(255, 255, 255, 0.18);
+        border-radius: 18px;
+        pointer-events: none;
+      }
+
+      .offer-card::after {
+        content: '';
+        position: absolute;
+        inset: auto -20% -44% -20%;
+        height: 220px;
+        background: radial-gradient(circle, rgba(255, 255, 255, 0.12), transparent 65%);
+        opacity: 0.7;
         pointer-events: none;
       }
 
@@ -643,7 +674,7 @@
       .offer-list {
         list-style: none;
         padding: 0;
-        margin: 0.2rem auto 1.4rem;
+        margin: 0.2rem auto 1.25rem;
         display: grid;
         gap: 0.55rem;
         color: rgba(255, 255, 255, 0.94);
@@ -667,21 +698,26 @@
       .offer-select {
         justify-self: center;
         border: 0;
-        background: rgba(255, 255, 255, 0.96);
+        background: rgba(255, 255, 255, 0.98);
         color: #9a0d10;
-        border-radius: 6px;
-        padding: 0.9rem 1.1rem;
+        border-radius: 999px;
+        padding: 0.95rem 1.3rem;
         min-width: min(100%, 260px);
         font-family: inherit;
         font-size: 1rem;
         font-weight: 900;
         text-transform: uppercase;
         letter-spacing: 0.08em;
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.18);
+        box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
       }
 
       .offer-card[data-selected='true'] .offer-select {
         background: #fff;
+        color: #a20f12;
+      }
+
+      .offer-card[data-selected='true'] {
+        outline: 2px solid rgba(255, 255, 255, 0.08);
       }
 
       .offer-badge {
@@ -689,13 +725,29 @@
         top: 16px;
         right: 16px;
         border-radius: 999px;
-        border: 1px solid rgba(255, 255, 255, 0.18);
+        border: 1px solid rgba(255, 255, 255, 0.24);
         padding: 0.42rem 0.7rem;
         color: rgba(255, 255, 255, 0.96);
         font-size: 0.68rem;
         letter-spacing: 0.16em;
         text-transform: uppercase;
-        background: rgba(0, 0, 0, 0.12);
+        background: rgba(0, 0, 0, 0.18);
+      }
+
+      .offer-topline {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.45rem;
+        margin: 0 auto 0.65rem;
+        padding: 0.42rem 0.75rem;
+        border-radius: 999px;
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        background: rgba(0, 0, 0, 0.16);
+        font-size: 0.68rem;
+        letter-spacing: 0.18em;
+        text-transform: uppercase;
+        color: rgba(255, 255, 255, 0.92);
       }
 
       .steps {
@@ -1541,6 +1593,15 @@
           display: none;
         }
 
+        html,
+        body {
+          perspective: none;
+        }
+
+        section.is-3d {
+          transition: none;
+        }
+
         .hero-copy {
           order: 0;
         }
@@ -1558,6 +1619,46 @@
 
         .offers-grid {
           grid-template-columns: 1fr;
+        }
+
+        .offer-card {
+          min-height: auto;
+          padding: 1.2rem 1rem 1rem;
+          border-radius: 20px;
+        }
+
+        .offer-card::before {
+          inset: 10px;
+          border-radius: 14px;
+        }
+
+        .offer-card::after {
+          inset: auto -26% -50% -26%;
+          height: 160px;
+        }
+
+        .offer-topline {
+          width: fit-content;
+          margin-bottom: 0.55rem;
+        }
+
+        .offer-price {
+          font-size: clamp(2.8rem, 19vw, 4.2rem);
+        }
+
+        .offer-list {
+          margin-bottom: 1rem;
+          gap: 0.4rem;
+        }
+
+        .offer-list li {
+          font-size: 0.95rem;
+        }
+
+        .offer-select {
+          min-width: 100%;
+          padding: 0.88rem 1rem;
+          font-size: 0.92rem;
         }
 
         .hero h1 {
@@ -1882,6 +1983,7 @@
           </div>
           <div class="offers-grid">
             <article class="offer-card reveal" data-selected="true">
+              <div class="offer-topline">Most Popular</div>
               <div class="offer-badge">Adult Trial Offers</div>
               <h3>Step 1: Choose Your Trial Offer</h3>
               <p class="offer-step">2 Weeks of Classes</p>
@@ -1894,6 +1996,7 @@
               <button class="offer-select" type="button">Selected ✓</button>
             </article>
             <article class="offer-card reveal">
+              <div class="offer-topline">Family Friendly</div>
               <div class="offer-badge">Children's Trial Offers</div>
               <h3>Step 1: Choose Your Trial Offer</h3>
               <p class="offer-step">2 Weeks of Classes</p>
@@ -2183,6 +2286,38 @@
       };
       window.addEventListener('scroll', onScroll);
       onScroll();
+
+      const threeDSections = Array.from(document.querySelectorAll('main > section'));
+      threeDSections.forEach((section) => section.classList.add('is-3d'));
+
+      const clamp = (value, min, max) => Math.min(max, Math.max(min, value));
+      let threeDFrame = 0;
+
+      const updateThreeD = () => {
+        threeDFrame = 0;
+        const viewportMid = window.innerHeight * 0.52;
+        threeDSections.forEach((section, index) => {
+          const rect = section.getBoundingClientRect();
+          const sectionMid = rect.top + rect.height / 2;
+          const distance = (sectionMid - viewportMid) / window.innerHeight;
+          const rotateX = clamp(distance * -18, -14, 14);
+          const translateY = clamp(distance * -70, -68, 68);
+          const scale = clamp(1 - Math.min(Math.abs(distance) * 0.07, 0.055), 0.945, 1);
+          const opacity = clamp(1 - Math.min(Math.abs(distance) * 0.16, 0.12), 0.88, 1);
+          section.style.transform = `translateY(${translateY}px) rotateX(${rotateX}deg) scale(${scale})`;
+          section.style.opacity = String(opacity);
+          section.style.zIndex = String(100 - index);
+        });
+      };
+
+      const requestThreeD = () => {
+        if (threeDFrame) return;
+        threeDFrame = requestAnimationFrame(updateThreeD);
+      };
+
+      window.addEventListener('scroll', requestThreeD, { passive: true });
+      window.addEventListener('resize', requestThreeD);
+      requestThreeD();
 
       const reelVideos = Array.from(document.querySelectorAll('.reel-video'));
       const reelObserver = new IntersectionObserver(
