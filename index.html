@@ -596,6 +596,21 @@
         line-height: 1.7;
       }
 
+      .offers-labels {
+        display: flex;
+        justify-content: space-between;
+        gap: 1rem;
+        margin: 0.7rem 0 0.85rem;
+        flex-wrap: wrap;
+      }
+
+      .offers-labels span {
+        color: rgba(255, 255, 255, 0.86);
+        font-size: 0.82rem;
+        letter-spacing: 0.16em;
+        text-transform: uppercase;
+      }
+
       .offer-note {
         display: inline-flex;
         align-items: center;
@@ -626,7 +641,7 @@
         background: linear-gradient(180deg, #e01d22 0%, #c91418 100%);
         box-shadow: 0 22px 52px rgba(0, 0, 0, 0.3);
         padding: 1.15rem 1.05rem 1rem;
-        min-height: 320px;
+        min-height: 300px;
         display: grid;
         align-content: center;
         text-align: center;
@@ -650,7 +665,7 @@
       }
 
       .offer-card h3 {
-        margin: 0 0 0.2rem;
+        margin: 0 0 0.12rem;
         text-transform: none;
         letter-spacing: 0.01em;
         font-size: clamp(1.8rem, 4vw, 2.65rem);
@@ -707,14 +722,14 @@
         background: rgba(255, 255, 255, 0.96);
         color: #8f0d10;
         border-radius: 999px;
-        padding: 0.84rem 1.1rem;
-        min-width: min(100%, 260px);
+        padding: 0.62rem 0.95rem;
+        min-width: min(100%, 170px);
         font-family: inherit;
-        font-size: 0.93rem;
+        font-size: 0.78rem;
         font-weight: 900;
         text-transform: uppercase;
         letter-spacing: 0.06em;
-        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.16);
+        box-shadow: 0 8px 18px rgba(0, 0, 0, 0.12);
       }
 
       .offer-card[data-selected='true'] .offer-select {
@@ -1641,7 +1656,7 @@
 
         .offer-card {
           min-height: auto;
-          padding: 0.95rem 0.85rem 0.85rem;
+          padding: 0.85rem 0.8rem 0.8rem;
           border-radius: 18px;
         }
 
@@ -1679,9 +1694,9 @@
         }
 
         .offer-select {
-          min-width: 100%;
-          padding: 0.72rem 0.9rem;
-          font-size: 0.86rem;
+          min-width: 132px;
+          padding: 0.58rem 0.82rem;
+          font-size: 0.74rem;
         }
 
         .offer-note {
@@ -1971,6 +1986,8 @@
               <input id="trial-name" type="text" placeholder="Your name" />
               <label class="sr-only" for="trial-phone">Phone number</label>
               <input id="trial-phone" type="tel" placeholder="Phone number" />
+              <label class="sr-only" for="trial-email">Email address</label>
+              <input id="trial-email" type="email" placeholder="Email address" />
               <label class="sr-only" for="trial-program">Choose a program</label>
               <select id="trial-program">
                 <option>Choose a program</option>
@@ -2052,10 +2069,12 @@
               <p>Choose your first trial offer. Clean, simple, and built to help families move from interest to action fast.</p>
             </div>
           </div>
+          <div class="offers-labels" aria-hidden="true">
+            <span>Adult Trial Offers</span>
+            <span>Children's Trial Offer</span>
+          </div>
           <div class="offers-grid">
             <article class="offer-card reveal" data-selected="true" data-program="adults">
-              <div class="offer-topline">Most Popular</div>
-              <div class="offer-badge">Adult Trial</div>
               <h3>Step 1: Choose Your Trial Offer</h3>
               <p class="offer-step">2 Weeks of Classes</p>
               <div class="offer-price">$20</div>
@@ -2068,8 +2087,6 @@
               <div class="offer-note">Tap to choose this offer</div>
             </article>
             <article class="offer-card reveal" data-program="children">
-              <div class="offer-topline">Family Friendly</div>
-              <div class="offer-badge">Children's Trial</div>
               <h3>Step 1: Choose Your Trial Offer</h3>
               <p class="offer-step">2 Weeks of Classes</p>
               <div class="offer-price">$20</div>
@@ -2444,6 +2461,9 @@
 
       const offerCards = Array.from(document.querySelectorAll('.offer-card'));
       const offerButtons = Array.from(document.querySelectorAll('.offer-select'));
+      const trialForm = document.getElementById('trial');
+      const trialEmail = document.getElementById('trial-email');
+      const trialProgram = document.getElementById('trial-program');
       offerButtons.forEach((button) => {
         button.addEventListener('click', () => {
           const card = button.closest('.offer-card');
@@ -2455,9 +2475,18 @@
             const action = item.querySelector('.offer-select');
             if (action) {
               const program = item.getAttribute('data-program') || 'offer';
-              action.textContent = selected ? `Selected ✓` : `Select ${program === 'children' ? 'Children' : 'Adult'}`;
+              action.textContent = selected ? 'Selected ✓' : `Select ${program === 'children' ? 'Children' : 'Adult'}`;
             }
           });
+          if (trialForm) {
+            trialForm.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+          if (trialProgram) {
+            trialProgram.value = card.getAttribute('data-program') === 'children' ? 'Children' : 'Adults';
+          }
+          window.setTimeout(() => {
+            trialEmail?.focus();
+          }, 450);
         });
       });
 
