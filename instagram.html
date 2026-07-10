@@ -860,19 +860,22 @@
                 <div class="contact-panel" id="form">
                   <h2>Book a Trial</h2>
                   <p>Drop your info and we’ll get you started.</p>
-                  <form class="form" onsubmit="return false;">
+                  <form class="form" id="trialForm" action="https://formsubmit.co/contact@taekwon-dojang.kr" method="POST">
+                    <input type="hidden" name="_subject" value="OCMA Trial Request" />
+                    <input type="hidden" name="_captcha" value="false" />
+                    <input type="hidden" name="_template" value="table" />
                     <label class="sr-only" for="trial-name">Your name</label>
-                    <input id="trial-name" type="text" placeholder="Your name" />
+                    <input id="trial-name" name="name" type="text" placeholder="Your name" />
                     <label class="sr-only" for="trial-phone">Phone number</label>
-                    <input id="trial-phone" type="tel" placeholder="Phone number" />
+                    <input id="trial-phone" name="phone" type="tel" placeholder="Phone number" />
                     <label class="sr-only" for="trial-program">Choose a program</label>
-                    <select id="trial-program">
-                      <option>Choose a program</option>
-                      <option>Children</option>
-                      <option>Adults</option>
-                      <option>Self Defense</option>
+                    <select id="trial-program" name="program">
+                      <option value="Choose a program">Choose a program</option>
+                      <option value="Children">Children</option>
+                      <option value="Adults">Adults</option>
+                      <option value="Self Defense">Self Defense</option>
                     </select>
-                    <button type="button" aria-label="Get started with a trial">Get Started</button>
+                    <button id="trialSubmit" type="submit" aria-label="Get started with a trial">Get Started</button>
                   </form>
                 </div>
 
@@ -991,7 +994,6 @@
       const a11yButtons = Array.from(document.querySelectorAll('[data-a11y]'));
       const htmlEl = document.documentElement;
       const a11yState = { text: false, contrast: false, motion: false };
-
       const syncA11yButtons = () => {
         a11yButtons.forEach((button) => {
           const key = button.getAttribute('data-a11y');
