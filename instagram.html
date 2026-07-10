@@ -317,6 +317,107 @@
         align-items: start;
       }
 
+      .offer-mini-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 12px;
+        margin-top: 14px;
+      }
+
+      .offer-mini {
+        position: relative;
+        overflow: hidden;
+        border-radius: 18px;
+        border: 1px solid rgba(255,255,255,0.12);
+        background:
+          radial-gradient(circle at top left, rgba(255,255,255,0.14), transparent 32%),
+          linear-gradient(180deg, #ff272d 0%, #d3171c 100%);
+        padding: 14px;
+        box-shadow: 0 18px 34px rgba(0,0,0,0.2);
+      }
+
+      .offer-mini::before {
+        content: '';
+        position: absolute;
+        inset: 9px;
+        border: 1px solid rgba(255,255,255,0.14);
+        border-radius: 12px;
+        pointer-events: none;
+      }
+
+      .offer-mini-kicker {
+        margin: 0;
+        font-size: 0.58rem;
+        letter-spacing: 0.14em;
+        text-transform: uppercase;
+        color: rgba(255,255,255,0.84);
+      }
+
+      .offer-mini h3 {
+        margin: 8px 0 0;
+        font-size: 1rem;
+        line-height: 1.03;
+        text-transform: uppercase;
+      }
+
+      .offer-mini-copy {
+        margin: 5px 0 0;
+        font-size: 0.72rem;
+        color: rgba(255,255,255,0.9);
+      }
+
+      .offer-mini-list {
+        list-style: none;
+        padding: 0;
+        margin: 10px 0 0;
+        display: grid;
+        gap: 4px;
+      }
+
+      .offer-mini-list li {
+        position: relative;
+        padding-left: 10px;
+        font-size: 0.7rem;
+        line-height: 1.22;
+        color: rgba(255,255,255,0.92);
+      }
+
+      .offer-mini-list li::before {
+        content: '•';
+        position: absolute;
+        left: 0;
+      }
+
+      .offer-mini-footer {
+        display: flex;
+        align-items: end;
+        justify-content: space-between;
+        gap: 8px;
+        margin-top: 10px;
+      }
+
+      .offer-mini-price {
+        margin: 0;
+        font-size: 1.8rem;
+        line-height: 0.9;
+        font-weight: 900;
+        letter-spacing: -0.06em;
+      }
+
+      .offer-mini-tag {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 5px 9px;
+        border-radius: 999px;
+        background: rgba(255,255,255,0.96);
+        color: #b30d12;
+        font-size: 0.54rem;
+        font-weight: 800;
+        letter-spacing: 0.12em;
+        text-transform: uppercase;
+      }
+
       .hours {
         border: 1px solid rgba(255,255,255,0.14);
         background: rgba(255,255,255,0.05);
@@ -691,6 +792,9 @@
         .details-grid {
           grid-template-columns: 1fr;
         }
+        .offer-mini-grid {
+          grid-template-columns: 1fr;
+        }
         .topbar {
           padding-top: 14px;
         }
@@ -854,6 +958,37 @@
               <div class="panel">
                 <h2>Why OCMA</h2>
                 <p>Confidence, discipline, and a place to start strong.</p>
+              </div>
+
+              <div class="offer-mini-grid" aria-label="Trial offers">
+                <article class="offer-mini">
+                  <p class="offer-mini-kicker">Adult Trial Offer</p>
+                  <h3>Train Strong</h3>
+                  <p class="offer-mini-copy">2 Weeks of Classes</p>
+                  <ul class="offer-mini-list">
+                    <li>Fun group lessons</li>
+                    <li>Build life long change</li>
+                    <li>Evaluate our program with confidence</li>
+                  </ul>
+                  <div class="offer-mini-footer">
+                    <p class="offer-mini-price">$20</p>
+                    <span class="offer-mini-tag">Adult</span>
+                  </div>
+                </article>
+                <article class="offer-mini">
+                  <p class="offer-mini-kicker">Children's Trial Offer</p>
+                  <h3>Build Early Confidence</h3>
+                  <p class="offer-mini-copy">2 Weeks of Classes</p>
+                  <ul class="offer-mini-list">
+                    <li>Fun group lessons</li>
+                    <li>Build confidence early</li>
+                    <li>See our program in action</li>
+                  </ul>
+                  <div class="offer-mini-footer">
+                    <p class="offer-mini-price">$20</p>
+                    <span class="offer-mini-tag">Kids</span>
+                  </div>
+                </article>
               </div>
 
               <div class="details-grid">
