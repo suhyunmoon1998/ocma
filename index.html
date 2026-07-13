@@ -1800,21 +1800,24 @@
               <p>Pick your program and book your first lesson in under a minute.</p>
               <div class="lead-form" id="trial">
                 <h4>Book a Trial</h4>
-                <form class="row" onsubmit="return false;">
+                <form class="row" id="trialLeadForm" action="https://formsubmit.co/OCMAIrvine@gmail.com" method="POST">
+              <input type="hidden" name="_subject" value="OCMA Website Trial Request" />
+              <input type="hidden" name="_captcha" value="false" />
+              <input type="hidden" name="_template" value="table" />
               <label class="sr-only" for="trial-name">Your name</label>
-              <input id="trial-name" type="text" placeholder="Your name" />
+              <input id="trial-name" name="name" type="text" placeholder="Your name" />
               <label class="sr-only" for="trial-phone">Phone number</label>
-              <input id="trial-phone" type="tel" placeholder="Phone number" />
+              <input id="trial-phone" name="phone" type="tel" placeholder="Phone number" />
               <label class="sr-only" for="trial-email">Email address</label>
-              <input id="trial-email" type="email" placeholder="Email address" />
+              <input id="trial-email" name="email" type="email" placeholder="Email address" />
               <label class="sr-only" for="trial-program">Choose a program</label>
-              <select id="trial-program">
-                <option>Choose a program</option>
-                <option>Children</option>
-                <option>Adults</option>
-                <option>Self Defense</option>
+              <select id="trial-program" name="program">
+                <option value="Choose a program">Choose a program</option>
+                <option value="Children">Children</option>
+                <option value="Adults">Adults</option>
+                <option value="Self Defense">Self Defense</option>
               </select>
-              <button type="button" aria-label="Get started with a trial">Get Started</button>
+              <button type="submit" aria-label="Get started with a trial">Get Started</button>
                 </form>
               </div>
             </aside>
