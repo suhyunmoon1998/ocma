@@ -1460,6 +1460,66 @@
         color: var(--red);
       }
 
+      html.modal-open,
+      body.modal-open {
+        overflow: hidden;
+        perspective: none;
+      }
+
+      .special-offer-modal {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        display: grid;
+        place-items: center;
+        padding: 1.25rem;
+        background: rgba(0, 0, 0, 0.82);
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 180ms ease, visibility 180ms ease;
+      }
+
+      .special-offer-modal.open {
+        opacity: 1;
+        visibility: visible;
+      }
+
+      .special-offer-dialog {
+        position: relative;
+        z-index: 1;
+        width: min(92vw, 70.4vh, 620px);
+        aspect-ratio: 1122 / 1402;
+      }
+
+      .special-offer-dialog img {
+        display: block;
+        width: 100%;
+        height: 100%;
+        object-fit: contain;
+        border-radius: 18px;
+        box-shadow: 0 24px 80px rgba(0, 0, 0, 0.7);
+      }
+
+      .special-offer-close {
+        position: absolute;
+        top: -14px;
+        right: -14px;
+        width: 44px;
+        height: 44px;
+        border: 2px solid var(--white);
+        border-radius: 50%;
+        background: var(--red);
+        color: var(--white);
+        font: 900 1.5rem/1 sans-serif;
+        cursor: pointer;
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.45);
+      }
+
+      .special-offer-close:focus-visible {
+        outline: 3px solid var(--white);
+        outline-offset: 3px;
+      }
+
       a:focus-visible,
       button:focus-visible,
       input:focus-visible,
@@ -1484,6 +1544,15 @@
       }
 
       @media (max-width: 920px) {
+        .special-offer-modal {
+          padding: 0.75rem;
+        }
+
+        .special-offer-close {
+          top: 8px;
+          right: 8px;
+        }
+
         html,
         body {
           background:
@@ -1746,6 +1815,16 @@
     <div class="cursor-glow" aria-hidden="true"></div>
     <div class="dojo-bg" aria-hidden="true"></div>
     <div class="grain"></div>
+
+    <div class="special-offer-modal" id="specialOfferModal" aria-hidden="true">
+      <div class="special-offer-dialog" role="dialog" aria-modal="true" aria-label="One-week martial arts special offer">
+        <button class="special-offer-close" id="specialOfferClose" type="button" aria-label="Close special offer">×</button>
+        <img
+          src="assets/photos/one-week-special-offer.webp"
+          alt="OCMA special offer: one week of martial arts classes for $20. Call 949-887-7487. Focus Dance Center, 4746 Barranca Parkway, Irvine, California 92604."
+        />
+      </div>
+    </div>
 
     <header class="topbar">
       <div class="wrap topbar-inner">
@@ -2175,6 +2254,32 @@
     </div>
 
     <script>
+      const specialOfferModal = document.getElementById('specialOfferModal');
+      const specialOfferClose = document.getElementById('specialOfferClose');
+
+      const closeSpecialOffer = () => {
+        specialOfferModal.classList.remove('open');
+        specialOfferModal.setAttribute('aria-hidden', 'true');
+        document.documentElement.classList.remove('modal-open');
+        document.body.classList.remove('modal-open');
+      };
+
+      setTimeout(() => {
+        specialOfferModal.classList.add('open');
+        specialOfferModal.setAttribute('aria-hidden', 'false');
+        document.documentElement.classList.add('modal-open');
+        document.body.classList.add('modal-open');
+        specialOfferClose.focus();
+      }, 3000);
+
+      specialOfferClose.addEventListener('click', closeSpecialOffer);
+      specialOfferModal.addEventListener('click', (event) => {
+        if (event.target === specialOfferModal) closeSpecialOffer();
+      });
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && specialOfferModal.classList.contains('open')) closeSpecialOffer();
+      });
+
       const reveals = document.querySelectorAll('.reveal');
       const onScroll = () => {
         const marker = window.scrollY + window.innerHeight - 50;
