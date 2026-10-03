@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="description" content="OCMA Martial Arts Instagram landing page" />
     <title>OCMA | Instagram Landing</title>
     <style>
@@ -586,6 +586,27 @@
         .hours-row {
           font-size: 0.86rem;
         }
+      }
+
+
+      /* Mobile-first readability and touch targets */
+      @media (max-width: 520px) {
+        html, body { overflow-x: hidden; }
+        body { background-attachment: scroll; }
+        .wrap { width: calc(100% - 20px); }
+        .card { border-radius: 18px; }
+        .content { padding: 14px; }
+        h1 { max-width: none; font-size: clamp(2.15rem, 12vw, 3.1rem); line-height: 0.98; }
+        .cta-row { display: grid; grid-template-columns: 1fr; }
+        .btn { min-height: 48px; display: inline-flex; align-items: center; justify-content: center; }
+        .form input, .form select, .form button { min-height: 48px; font-size: 1rem; }
+        .hours-table { margin-left: 8px; padding: 12px 10px 14px 0; }
+        .hours-row { grid-template-columns: 1fr; gap: 3px; font-size: 0.92rem; line-height: 1.4; }
+        .hours-row span { font-weight: 800; color: var(--white); }
+        .contact-item { align-items: flex-start; overflow-wrap: anywhere; }
+        .panel, .contact-panel, .hours-card, .review-card { border-radius: 14px; }
+        .social-links a { min-height: 44px; }
+        .footer { padding-bottom: max(18px, env(safe-area-inset-bottom)); line-height: 1.55; }
       }
     </style>
   </head>

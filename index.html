@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
     <meta name="description" content="TAEKWON DOJANG - clean, bold martial arts site in black, white and red." />
     <title>TAEKWON DOJANG | Train Fearless</title>
     <style>
@@ -205,6 +205,10 @@
       .top-nav a:hover {
         opacity: 1;
         color: var(--red);
+      }
+
+      .mobile-call {
+        display: none;
       }
 
       .hero {
@@ -1502,6 +1506,7 @@
 
       .special-offer-close {
         position: absolute;
+        z-index: 2;
         top: -14px;
         right: -14px;
         width: 44px;
@@ -1721,6 +1726,22 @@
           display: none;
         }
 
+        .mobile-call {
+          display: inline-flex;
+          min-height: 44px;
+          align-items: center;
+          justify-content: center;
+          padding: 0.65rem 0.9rem;
+          border-radius: 999px;
+          background: var(--red);
+          color: var(--white);
+          text-decoration: none;
+          font-size: 0.76rem;
+          font-weight: 900;
+          letter-spacing: 0.08em;
+          text-transform: uppercase;
+        }
+
         .brand {
           padding: 0.15rem 0.25rem;
         }
@@ -1728,6 +1749,131 @@
         .brand-logo {
           width: 108px;
           height: 42px;
+        }
+      }
+
+      @media (max-width: 520px) {
+        .wrap { padding-inline: 0.75rem; }
+
+        .topbar-inner {
+          min-height: 60px;
+          padding-top: env(safe-area-inset-top);
+        }
+
+        .brand-logo {
+          width: 96px;
+          height: 38px;
+        }
+
+        .mobile-call {
+          min-height: 46px;
+          padding-inline: 0.85rem;
+        }
+
+        .hero { padding-top: 0.7rem; }
+        .hero-content { padding: 0.75rem; }
+
+        .hero-copy,
+        .hero-panel { transform: none; }
+
+        .hero h1 {
+          max-width: none;
+          font-size: clamp(2.25rem, 13vw, 3.15rem);
+          line-height: 0.98;
+        }
+
+        .hero-actions {
+          display: grid;
+          grid-template-columns: 1fr;
+          gap: 0.6rem;
+        }
+
+        .btn {
+          display: inline-flex;
+          min-height: 48px;
+          align-items: center;
+          justify-content: center;
+          margin: 0;
+        }
+
+        .hero-trust span {
+          font-size: 0.7rem;
+          line-height: 1.35;
+        }
+
+        .hero-panel,
+        .lead-form,
+        .card,
+        .step-card,
+        .story,
+        .location-copy,
+        .hours-note { padding: 0.9rem; }
+
+        .lead-form input,
+        .lead-form select,
+        .lead-form button {
+          min-height: 48px;
+          font-size: 1rem;
+        }
+
+        .hours-list {
+          margin-left: 0.75rem;
+          padding: 0.9rem 0.85rem 1rem;
+        }
+
+        .hours-row {
+          grid-template-columns: minmax(0, 1fr) auto;
+          gap: 0.55rem;
+          font-size: 0.9rem;
+          line-height: 1.4;
+        }
+
+        .hours-row span { white-space: nowrap; }
+
+        .copy-address,
+        .social-links a { min-height: 44px; }
+
+        .reels-track { grid-auto-columns: calc(100vw - 2rem); }
+
+        .reel-panel {
+          min-height: 68vh;
+          min-height: 68svh;
+        }
+
+        .reel-copy { padding: 1.1rem; }
+
+        .special-offer-modal {
+          padding:
+            max(0.5rem, env(safe-area-inset-top))
+            max(0.5rem, env(safe-area-inset-right))
+            max(0.5rem, env(safe-area-inset-bottom))
+            max(0.5rem, env(safe-area-inset-left));
+        }
+
+        .special-offer-dialog {
+          width: min(calc(100vw - 1rem), calc((100dvh - 1rem) * 0.8003));
+          max-height: calc(100dvh - 1rem);
+        }
+
+        .special-offer-dialog img { border-radius: 12px; }
+
+        .special-offer-close {
+          top: 0.5rem;
+          right: 0.5rem;
+          width: 48px;
+          height: 48px;
+        }
+
+        .footer-row {
+          flex-direction: column;
+          line-height: 1.6;
+        }
+
+        .a11y-fab {
+          right: max(12px, env(safe-area-inset-right));
+          bottom: max(12px, env(safe-area-inset-bottom));
+          min-width: 46px;
+          min-height: 46px;
         }
       }
 
@@ -1840,6 +1986,7 @@
             <a href="#location">Location</a>
             <a href="#trial">Trial</a>
           </nav>
+          <a class="mobile-call" href="tel:9498877487" aria-label="Call OCMA at 949-887-7487">Call Now</a>
         </div>
       </header>
 
