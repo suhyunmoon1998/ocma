@@ -684,16 +684,20 @@
               <div class="panel" id="form">
                 <h2>Book a Trial</h2>
                 <p>Leave your info and we’ll help you find the best class.</p>
-                <form class="form" onsubmit="return false;">
-                  <input type="text" placeholder="Your name" />
-                  <input type="tel" placeholder="Phone number" />
-                  <select>
-                    <option>Choose a program</option>
-                    <option>Children</option>
-                    <option>Adults</option>
-                    <option>Self Defense</option>
+                <form class="form" action="https://formsubmit.co/OCMAIrvine@gmail.com" method="POST">
+                  <input type="hidden" name="_subject" value="OCMA Landing Page Trial Request" />
+                  <input type="hidden" name="_captcha" value="false" />
+                  <input type="hidden" name="_template" value="table" />
+                  <input name="name" type="text" placeholder="Your name" aria-label="Your name" required />
+                  <input name="phone" type="tel" placeholder="Phone number" aria-label="Phone number" required />
+                  <input name="email" type="email" placeholder="Email address" aria-label="Email address" required />
+                  <select name="program" aria-label="Choose a program" required>
+                    <option value="" disabled selected>Choose a program</option>
+                    <option value="Children">Children</option>
+                    <option value="Adults">Adults</option>
+                    <option value="Self Defense">Self Defense</option>
                   </select>
-                  <button type="button">Get Started</button>
+                  <button type="submit">Get Started</button>
                 </form>
               </div>
 
